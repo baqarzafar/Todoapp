@@ -1,0 +1,89 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+
+        <div style="border: 5px   solid #0af4f4 ; background-color: #0C2340; width: 20%; height: 0%; margin: 20% 20%; padding: 10%;">
+              
+
+
+             <h1 style="color:  rgb(10, 209, 244); font-size: 250%; ">To do app</h1>
+
+
+            <div>
+                <input onchange="foo()" id="inpute" style=" width: 80%;  border: 3px solid  #0af4f4;  font-size: 100%;  color: white; padding: 10%; background-color: #002147;" placeholder="name this task">
+            </div>
+            
+            <div>
+                <button onclick="foo()" style="border: none; margin: 30%; padding: 5%; background-color: #0af4f4; width: 50%; border-radius: 1%;">create task</button>
+            </div>
+            <div>
+                <button onclick="clearTasks()" style=" border: none; margin-top: 3%; margin-left: 28%; padding: 5%; background-color: #0af4f4; width: 50%; border-radius: 1%;">clearTasks</button>
+            </div>
+        
+            <div style="margin-top:10% ;" id="taskList"></div>
+
+        
+        </div>
+
+        <script>
+            
+            let inpute = document.getElementById("inpute");
+            let array = [];
+            let taskList = document.getElementById("taskList");
+
+            function foo() {
+               
+                 if(inpute.value.length === 0 ){
+                    console.log("empty")
+                 }
+                else{
+                    console.log('function is working');
+                array.push(inpute.value);
+                localStorage.setItem('tasks', JSON.stringify(array));
+                renderTasks();
+                }
+            }
+
+            function renderTasks() {
+                taskList.innerHTML = ''; // Clear the existing content
+
+                let newarray = JSON.parse(localStorage.getItem("tasks"));
+
+                for (let i = 0; i < newarray.length; i++) {
+                    let taskDiv = document.createElement("div");
+                    taskDiv.style.border = "1px solid #0af4f4";
+                    taskDiv.style.color = "white";
+                    taskDiv.innerText = newarray[i];
+                    taskList.appendChild(taskDiv);
+                }
+                console.log(newarray);
+            }
+
+            setInterval(() => {
+                taskList.innerHTML = ''; // Clear the existing content
+
+                let newarray = JSON.parse(localStorage.getItem("tasks"));
+
+                for (let i = 0; i < newarray.length; i++) {
+                    let taskDiv = document.createElement("div");
+                    taskDiv.style.border = "1px solid #0af4f4";
+                    taskDiv.style.color = "white";
+                    taskDiv.style.marginTop = "5%";
+                    taskDiv.innerText = newarray[i];
+                    taskList.appendChild(taskDiv);
+                }
+            }, 1);
+
+            function clearTasks() {
+                localStorage.removeItem("tasks");
+                renderTasks(); // Clear the displayed tasks as well
+            }
+        </script>
+        
+    </body>
+    </html>
